@@ -37,3 +37,43 @@
         [(odd? n) (collatz-ratio1 (+ 1 (* n 3)) my-even (+ my-odd 1))]))
 
 (define (collatz-ratio n) (collatz-ratio1 n 0 0))
+
+(define (collatz2 n my-even my-odd)
+    (cond
+        [(eqv? n 0) "0 is not allowed"]
+        [(eqv? n 1) (begin
+            (display "============")
+            (newline)
+            (display "statistics: ")
+            (newline)
+            (display "/2: ")
+            (display my-even)
+            (newline)
+            (display "*3+1/2: ")
+            (display my-odd)
+            (newline)
+            (display "ratio: ")
+            (display (/ my-even (+ my-odd 0.0)))
+            (newline)
+            (display "============"))]
+        [(even? n) (begin
+            (display (/ n 2))
+            (display " :/2")
+            (newline)
+            (collatz2 (/ n 2) (+ my-even 1) my-odd))]
+        [(odd? n) (begin
+            (display (/ (+ 1 (* n 3)) 2))
+            (display " :*3+1/2")
+            (newline)
+            (collatz2 (/ (+ 1 (* n 3)) 2) my-even (+ my-odd 1)))]))
+
+(define (collatz-new n) (collatz2 n 0 0))
+
+(define (collatz-ratio2 n my-even my-odd)
+    (cond
+        [(eqv? n 0) "0 is not allowed"]
+        [(eqv? n 1) (/ my-even (+ my-odd 0.0))]
+        [(even? n) (collatz-ratio2 (/ n 2) (+ my-even 1) my-odd)]
+        [(odd? n) (collatz-ratio2 (/ (+ 1 (* n 3)) 2) my-even (+ my-odd 1))]))
+
+(define (collatz-ratio-new n) (collatz-ratio2 n 0 0))
